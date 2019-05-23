@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="hx.insist.mapper.WorkMapper" >
+  <resultMap id="BaseResultMap" type="hx.insist.pojo.Work" >
+    <id column="wid" property="wid" jdbcType="INTEGER" />
+    <result column="wtitle" property="wtitle" jdbcType="VARCHAR" />
+    <result column="wintro" property="wintro" jdbcType="VARCHAR" />
+    <result column="wimg" property="wimg" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    wid, wtitle, wintro, wimg
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="hx.insist.pojo.WorkExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from work
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from work
+    where wid = #{wid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from work
+    where wid = #{wid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="hx.insist.pojo.WorkExample" >
+    delete from work
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="hx.insist.pojo.Work" >
+    insert into work (wid, wtitle, wintro, 
+      wimg)
+    values (#{wid,jdbcType=INTEGER}, #{wtitle,jdbcType=VARCHAR}, #{wintro,jdbcType=VARCHAR}, 
+      #{wimg,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="hx.insist.pojo.Work" >
+    insert into work
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        wid,
+      </if>
+      <if test="wtitle != null" >
+        wtitle,
+      </if>
+      <if test="wintro != null" >
+        wintro,
+      </if>
+      <if test="wimg != null" >
+        wimg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wid != null" >
+        #{wid,jdbcType=INTEGER},
+      </if>
+      <if test="wtitle != null" >
+        #{wtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="wintro != null" >
+        #{wintro,jdbcType=VARCHAR},
+      </if>
+      <if test="wimg != null" >
+        #{wimg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="hx.insist.pojo.WorkExample" resultType="java.lang.Integer" >
+    select count(*) from work
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update work
+    <set >
+      <if test="record.wid != null" >
+        wid = #{record.wid,jdbcType=INTEGER},
+      </if>
+      <if test="record.wtitle != null" >
+        wtitle = #{record.wtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wintro != null" >
+        wintro = #{record.wintro,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wimg != null" >
+        wimg = #{record.wimg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update work
+    set wid = #{record.wid,jdbcType=INTEGER},
+      wtitle = #{record.wtitle,jdbcType=VARCHAR},
+      wintro = #{record.wintro,jdbcType=VARCHAR},
+      wimg = #{record.wimg,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="hx.insist.pojo.Work" >
+    update work
+    <set >
+      <if test="wtitle != null" >
+        wtitle = #{wtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="wintro != null" >
+        wintro = #{wintro,jdbcType=VARCHAR},
+      </if>
+      <if test="wimg != null" >
+        wimg = #{wimg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where wid = #{wid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="hx.insist.pojo.Work" >
+    update work
+    set wtitle = #{wtitle,jdbcType=VARCHAR},
+      wintro = #{wintro,jdbcType=VARCHAR},
+      wimg = #{wimg,jdbcType=VARCHAR}
+    where wid = #{wid,jdbcType=INTEGER}
+  </update>
+  <select id="selectIdByimg" parameterType="string" resultType="int">
+    select wid from work where wimg = #{0}
+  </select>
+  <select id="select6Work" resultType="hx.insist.pojo.Work">
+    select * from work order by wid desc limit 0,6
+  </select>
+  <select id="selectAllWork" resultType="hx.insist.pojo.Work">
+    select * from work order by wid desc
+  </select>
+</mapper>
